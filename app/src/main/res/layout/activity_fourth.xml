@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.hnle_pset6.ThirdActivity"
+    android:background="#FFFFFF"
+    >
+
+
+    <TextView
+        android:id="@+id/setting_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="@string/settings"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintHorizontal_bias="0.503"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/setting_intro" />
+
+    <TextView
+
+        android:id="@+id/setting_intro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/setting_intro"
+        tools:layout_editor_absoluteY="101dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/setting_shirt"
+        android:layout_width="102dp"
+        android:layout_height="132dp"
+        app:srcCompat="@drawable/shirt"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/setting_jacket_temp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="29dp"
+        app:layout_constraintTop_toBottomOf="@+id/setting_intro"
+        app:layout_constraintHorizontal_bias="0.481" />
+
+    <ImageView
+        android:id="@+id/setting_jacket"
+        android:layout_width="107dp"
+        android:layout_height="143dp"
+        app:srcCompat="@drawable/jacket"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/setting_shirt_temp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.428"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/setting_shirt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/setting_shirt_temp"
+        android:layout_width="115dp"
+        android:layout_height="37dp"
+        android:layout_marginRight="97dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toTopOf="@+id/setting_button" />
+
+    <EditText
+        android:id="@+id/setting_jacket_temp"
+        android:layout_width="115dp"
+        android:layout_height="37dp"
+        android:layout_marginRight="97dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="105dp"
+        app:layout_constraintBottom_toTopOf="@+id/setting_shirt_temp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/setting_intro"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/setting_celsius"
+        android:layout_width="68dp"
+        android:layout_height="31dp"
+        android:text="℃"
+        android:textSize="20dp"
+        tools:layout_editor_absoluteX="287dp"
+        android:layout_marginTop="83dp"
+        app:layout_constraintTop_toBottomOf="@+id/setting_intro" />
+
+    <TextView
+        android:id="@+id/setting_celsius2"
+        android:layout_width="68dp"
+        android:layout_height="31dp"
+        android:text="℃"
+        android:textSize="20dp"
+        tools:layout_editor_absoluteX="287dp"
+        android:layout_marginTop="111dp"
+        app:layout_constraintTop_toBottomOf="@+id/setting_celsius" />
+
+    <Button
+        android:id="@+id/setting_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/done"
+        android:layout_marginBottom="33dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>
