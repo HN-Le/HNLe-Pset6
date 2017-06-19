@@ -2,6 +2,7 @@ package com.example.hnle_pset6;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class FourthActivity extends AppCompatActivity {
 
@@ -11,5 +12,10 @@ public class FourthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fourth);
     }
 
+    public void done(View view) {
+        // save preferences in database TODO
+    }
+
     // add menu icon for settings! TODO
 }
+
