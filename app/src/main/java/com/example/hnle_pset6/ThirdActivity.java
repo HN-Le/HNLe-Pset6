@@ -77,12 +77,12 @@ public class ThirdActivity extends AppCompatActivity {
     // When log in button is tapped
     public void login(View view) {
         // Initialize edit texts
-        EditText login_email = (EditText) findViewById(R.id.login_username);
-        EditText login_password = (EditText) findViewById(R.id.login_password);
+        EditText loginEmail = (EditText) findViewById(R.id.login_username);
+        EditText loginPassword = (EditText) findViewById(R.id.login_password);
 
         // Get user input
-        email = login_email.getText().toString();
-        password = login_password.getText().toString();
+        email = loginEmail.getText().toString();
+        password = loginPassword.getText().toString();
 
         // Log in user
         logInUser();
@@ -105,7 +105,7 @@ public class ThirdActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Toast.makeText(ThirdActivity.this, "Account created!",
+                            Toast.makeText(ThirdActivity.this, "Signed in",
                                     Toast.LENGTH_SHORT).show();
 
                             // If login succeeded go to core screen where the temperature is shown
@@ -118,6 +118,7 @@ public class ThirdActivity extends AppCompatActivity {
     // Go to the core screen where temperature is shown
     public void goToFifth(){
         Intent loggedIn = new Intent(this, FifthActivity.class);
+        loggedIn.putExtra("ID", "ThirdActivity");
         startActivity(loggedIn);
     }
 }
