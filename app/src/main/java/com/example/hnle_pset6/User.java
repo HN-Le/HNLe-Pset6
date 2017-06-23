@@ -31,4 +31,12 @@ public class User {
     public void setTemp(String temp) {
         this.temp = temp;
     }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 }

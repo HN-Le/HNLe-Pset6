@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class WeatherAsyncTask extends AsyncTask<String, Integer, String> {
     Context context;
-    JSONArray temperature;
+    String temperature;
     FourthActivity fourthAct;
 
     public WeatherAsyncTask(FourthActivity fourth){
@@ -46,38 +46,20 @@ public class WeatherAsyncTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        ArrayList<String> data = new ArrayList<>();
 
         try {
 
-            JSONObject movieStreamObject = new JSONObject(result);
+            JSONObject temperatureStreamObject = new JSONObject(result);
+            JSONObject temperatureObj = temperatureStreamObject.getJSONObject("main");
 
-            temperature = movieStreamObject.optJSONArray("Main");
-
-            if (temperature != null) {
-
-                String title;
-
-                // loop through JSON object and get all the info
-                for (int i = 0; i < temperature.length(); i++) {
-
-                    JSONObject object = temperature.getJSONObject(i);
-
-                }
-
-                this.fourthAct.goToCore2(data);
-            }
-
-            // if input is nonsense and no search results are available
-            else{
-                Toast.makeText(context, "Invalid title! Please try again!", Toast.LENGTH_SHORT).show();
-            }
+            temperature = temperatureObj.getString("temp");
+            Log.d("result", temperature);
         }
 
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
+        catch(JSONException e){
+                e.printStackTrace();
+            }
 
-
+            this.fourthAct.goToCoreScreen(temperature);
     }
 }

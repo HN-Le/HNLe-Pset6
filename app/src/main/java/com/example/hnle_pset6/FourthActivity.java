@@ -73,7 +73,8 @@ public class FourthActivity extends AppCompatActivity {
     public void done(View view) {
         // save preferences in database TODO
         saveInDatabase();
-        goToCoreScreen();
+
+        // ASYNC TASK
     }
 
     public void saveInDatabase(){
@@ -110,10 +111,11 @@ public class FourthActivity extends AppCompatActivity {
         }
     }
 
-    public void goToCoreScreen(){
+    public void goToCoreScreen(String temp){
         Intent intent = new Intent(this, FifthActivity.class);
         intent.putExtra("setting", settingTemp);
         intent.putExtra("ID", "FourthActivity");
+        intent.putExtra("temperature", temp);
         startActivity(intent);
     }
 
@@ -135,14 +137,5 @@ public class FourthActivity extends AppCompatActivity {
         return string.replace(",", ".");
     }
 
-    public void goToCore2(ArrayList<String> movieData) {
-
-        Intent intent = new Intent(this, FifthActivity.class);
-        intent.putExtra("setting", settingTemp);
-        intent.putExtra("ID", "FourthActivity");
-        intent.putExtra("data", movieData);
-        this.startActivity(intent);
-
-    }
 }
 
