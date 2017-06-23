@@ -58,8 +58,8 @@ public class WeatherAsyncTask extends AsyncTask<String, Integer, String> {
 
         catch(JSONException e){
                 e.printStackTrace();
-            }
+        }
 
-            this.fourthAct.goToCoreScreen(temperature);
+        this.fourthAct.goToCoreScreen(temperature);
     }
 }

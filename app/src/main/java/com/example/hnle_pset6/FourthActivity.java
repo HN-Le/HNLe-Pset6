@@ -113,9 +113,12 @@ public class FourthActivity extends AppCompatActivity {
 
     public void goToCoreScreen(String temp){
         Intent intent = new Intent(this, FifthActivity.class);
+        Bundle extras = new Bundle();
+
         intent.putExtra("setting", settingTemp);
-        intent.putExtra("ID", "FourthActivity");
+//        intent.putExtra("ID", "FourthActivity");
         intent.putExtra("temperature", temp);
+
         startActivity(intent);
     }
 
