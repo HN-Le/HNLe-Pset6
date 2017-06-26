@@ -14,8 +14,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ThirdActivity extends AppCompatActivity {
 
@@ -24,6 +27,9 @@ public class ThirdActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     String email;
     String password;
+    String emailEncode;
+    String userTemp;
+    String userCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +50,8 @@ public class ThirdActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d("LOGED IN", "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d("LOGID IN", "onAuthStateChanged:signed_out");
                 }
+
             }
         };
     }
@@ -84,8 +88,19 @@ public class ThirdActivity extends AppCompatActivity {
         email = loginEmail.getText().toString();
         password = loginPassword.getText().toString();
 
-        // Log in user
-        logInUser();
+        // Give a warning when there is no mail filled in
+        if (email.equals("")){
+            Toast.makeText(ThirdActivity.this, "Invalid mail!",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        // Give a warning when password is shorter than 6 characters
+        if (password.length() < 6){
+            Toast.makeText(ThirdActivity.this, "Password too short!",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        else { logInUser(); }
     }
 
     // Function to log in user
@@ -96,29 +111,64 @@ public class ThirdActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("LOGGED IN", "signInWithEmail:onComplete:" + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
+                        // If sign in fails, display a message to the user
                         if (!task.isSuccessful()) {
                             Log.w("LOGGED IN", "signInWithEmail:failed", task.getException());
-                            Toast.makeText(ThirdActivity.this, "SIGN IN FAILED",
+                            Toast.makeText(ThirdActivity.this, "Sign in failed! Please try again",
                                     Toast.LENGTH_SHORT).show();
                         }
-                        else{
+
+                        // If sign in succeeds
+                        else {
                             Toast.makeText(ThirdActivity.this, "Signed in",
                                     Toast.LENGTH_SHORT).show();
 
-                            // If login succeeded go to core screen where the temperature is shown
-                            goToFifth();
+                            // Encode string to find in database
+                            emailEncode = EncodeString(email);
+
+                            // Retrieve user preference
+                            mDatabase.child("users").child(emailEncode).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    // This method is called once with the initial value and again
+                                    // whenever data at this location is updated.
+
+                                    User user = dataSnapshot.getValue(User.class);
+                                    userTemp = user.getTemp();
+                                    userCity = user.getCity();
+
+                                    if (userTemp != null) {
+                                        WeatherAsyncTaskLogIn Asynctask = new WeatherAsyncTaskLogIn(ThirdActivity.this);
+                                        Asynctask.execute(userCity);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError error) {
+                                    // Failed to read value
+                                    Log.w("result", "Failed to read value.", error.toException());
+                                }
+                            });
+
                         }
                     }
                 });
     }
 
     // Go to the core screen where temperature is shown
-    public void goToFifth(){
+    public void goToFifth(String temp){
         Intent loggedIn = new Intent(this, FifthActivity.class);
-        loggedIn.putExtra("ID", "ThirdActivity");
+
+        Bundle extra = new Bundle();
+        extra.putString("ID", "ThirdActivity");
+        extra.putString("temp", temp);
+
+        loggedIn.putExtras(extra);
         startActivity(loggedIn);
     }
+
+    public static String EncodeString(String string) {
+        return string.replace(".", ",");
+    }
+
 }

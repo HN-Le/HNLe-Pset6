@@ -1,39 +1,28 @@
 package com.example.hnle_pset6;
 
 import android.content.Context;
+
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
-public class WeatherAsyncTask extends AsyncTask<String, Integer, String> {
+public class WeatherAsyncTaskLogIn extends AsyncTask<String, Integer, String> {
     Context context;
-    String temperature;
-    FourthActivity fourthAct;
+    String temperature_string;
+    ThirdActivity thirdAct;
 
-    public WeatherAsyncTask(FourthActivity fourth){
-        this.fourthAct = fourth;
-        this.context = this.fourthAct.getApplicationContext();
+    public WeatherAsyncTaskLogIn(ThirdActivity third){
+        this.thirdAct = third;
+        this.context = this.thirdAct.getApplicationContext();
     }
 
     // Before app searches in API
     @Override
     protected void onPreExecute() {
-        Toast.makeText(context, "Retrieving data", Toast.LENGTH_SHORT).show();
     }
 
     // Searching in API
@@ -51,15 +40,14 @@ public class WeatherAsyncTask extends AsyncTask<String, Integer, String> {
 
             JSONObject temperatureStreamObject = new JSONObject(result);
             JSONObject temperatureObj = temperatureStreamObject.getJSONObject("main");
+            temperature_string = temperatureObj.getString("temp");
 
-            temperature = temperatureObj.getString("temp");
-            Log.d("result", temperature);
         }
 
         catch(JSONException e){
-                e.printStackTrace();
+            e.printStackTrace();
         }
 
-        this.fourthAct.goToCoreScreen(temperature);
+        this.thirdAct.goToFifth(temperature_string);
     }
 }

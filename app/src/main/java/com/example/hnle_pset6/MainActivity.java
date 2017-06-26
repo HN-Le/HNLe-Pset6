@@ -11,13 +11,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // If already logged in go to fifth activity TODO
-
-        // If not first use but logged out go to login screen
-
-        // If not go to register screen TODO
-
     }
 
     public void intro_button(View view) {
@@ -25,5 +18,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(register);
     }
 
-    // Alleen showen waneer het de eerste keer is! TODO
 }

@@ -1,19 +1,20 @@
 package com.example.hnle_pset6;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
 
 public class FourthActivity extends AppCompatActivity {
 
@@ -71,10 +72,8 @@ public class FourthActivity extends AppCompatActivity {
     }
 
     public void done(View view) {
-        // save preferences in database TODO
+        // Save/update preferences in database
         saveInDatabase();
-
-        // ASYNC TASK
     }
 
     public void saveInDatabase(){
@@ -92,6 +91,18 @@ public class FourthActivity extends AppCompatActivity {
             settingTemp = settingsTshirt.getText().toString();
             settingCity = settingsCity.getText().toString();
 
+            if (settingTemp.equals("")){
+            Toast.makeText(FourthActivity.this, "Please fill in a temperature!",
+                    Toast.LENGTH_SHORT).show();
+            }
+
+            if (settingsCity.equals("")){
+                Toast.makeText(FourthActivity.this, "Please fill in a city!",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            else {
+
             // Make a new User object and save the email and preferred temperature
             User userSettings = new User (userId, settingTemp, settingCity);
 
@@ -101,23 +112,31 @@ public class FourthActivity extends AppCompatActivity {
             // Put into database
             mDatabase.child("users").child(encodeEmail).setValue(userSettings);
 
-            WeatherAsyncTask Asynctask = new WeatherAsyncTask(this);
+            WeatherAsyncTaskRegister Asynctask = new WeatherAsyncTaskRegister(this);
             Asynctask.execute(settingCity);
+            }
+
         }
 
         // If not logged in go to register screen
-        else{
-            goToRegisterScreen();
-        }
+        else { goToRegisterScreen(); }
     }
 
     public void goToCoreScreen(String temp){
-        Intent intent = new Intent(this, FifthActivity.class);
-        Bundle extras = new Bundle();
 
-        intent.putExtra("setting", settingTemp);
-//        intent.putExtra("ID", "FourthActivity");
-        intent.putExtra("temperature", temp);
+        Intent intent = new Intent(this, FifthActivity.class);
+        Bundle extra = new Bundle();
+
+        // ID activity
+        extra.putString("ID", "FourthActivity");
+
+        // User temperature preference
+        extra.putString("setting", settingTemp);
+
+        // Current temperature
+        extra.putString("temperature", temp);
+
+        intent.putExtras(extra);
 
         startActivity(intent);
     }

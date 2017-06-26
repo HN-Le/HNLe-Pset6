@@ -37,10 +37,9 @@ public class SecondActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
+
+                    // Go straight to Core screen TODO
                     Log.d("LOGED IN", "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d("LOGID IN", "onAuthStateChanged:signed_out");
                 }
             }
         };
@@ -74,6 +73,12 @@ public class SecondActivity extends AppCompatActivity {
         email = register_email.getText().toString();
         password = register_password.getText().toString();
 
+        // Give a warning when there is no mail filled in
+        if (email.equals("")){
+            Toast.makeText(SecondActivity.this, "Invalid mail!",
+                    Toast.LENGTH_SHORT).show();
+        }
+
         // Give a warning when password is shorter than 6 characters
         if (password.length() < 6){
             Toast.makeText(SecondActivity.this, "Password too short!",
@@ -81,9 +86,7 @@ public class SecondActivity extends AppCompatActivity {
         }
 
         // If requirements are met create user and go to settings screen
-        else {
-            createUser();
-        }
+        else { createUser(); }
     }
 
     public void createUser() {
@@ -92,23 +95,21 @@ public class SecondActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("LOGED IN", "createUserWithEmail:onComplete:" + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
+                        // If sign in fails, display a message to the user.
                         if (!task.isSuccessful()) {
-                            Toast.makeText(SecondActivity.this, "Authentication failed.",
+                            Toast.makeText(SecondActivity.this, "Cannot make account! Please try again",
                                     Toast.LENGTH_SHORT).show();
                         }
-                        else{
+
+                        // If sign in succeeds
+                        else {
                             Toast.makeText(SecondActivity.this, "Account created!",
                                     Toast.LENGTH_SHORT).show();
 
-                            // If register succeeded go to settings screen
+                            // If register succeeded go to settings screen for setup
                             goToSettings();
                         }
-
                     }
                 });
     }
@@ -116,11 +117,17 @@ public class SecondActivity extends AppCompatActivity {
     // Go to Log In screen
     public void goToLogin(View view) {
         Intent login = new Intent(this, ThirdActivity.class);
+        Bundle extra = new Bundle();
+
+        extra.putString("ID", "FourthActivity");
+
+        login.putExtras(extra);
         startActivity(login);
     }
 
     // Go to settings screen
     public void goToSettings(){
+
         // Go to settings screen
         Intent settings = new Intent(this, FourthActivity.class);
         startActivity(settings);
