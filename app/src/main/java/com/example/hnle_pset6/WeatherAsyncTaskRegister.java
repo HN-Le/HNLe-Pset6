@@ -50,5 +50,6 @@ public class WeatherAsyncTaskRegister extends AsyncTask<String, Integer, String>
         }
 
         this.fourthAct.goToCoreScreen(temperature);
+
     }
 }

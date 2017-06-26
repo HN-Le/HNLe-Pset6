@@ -124,8 +124,19 @@ public class FifthActivity extends AppCompatActivity {
     // When + sign is pressed
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        goToSettings();
-        return true;
+        int id = item.getItemId();
+
+        if (id == R.id.settings){
+            goToSettings();
+            return true;
+        }
+
+        if (id == R.id.logout){
+            FirebaseAuth.getInstance().signOut();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void goToSettings(){
