@@ -19,18 +19,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.PrivateKey;
+
 public class FifthActivity extends AppCompatActivity {
 
-    String settings;
-    String temperature_string;
-    String test_string;
-    String city;
-    FifthActivity fifthAct;
-    float test;
-    float temperature;
+    public String settings;
+    private String temperatureString;
+    private String test_string;
+    private String city;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
+    String search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +48,14 @@ public class FifthActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d("LOGED IN", "onAuthStateChanged:signed_in:" + user.getUid());
 
-                } else {
-                    // User is signed out
-                    Log.d("LOGID IN", "onAuthStateChanged:signed_out");
+                // User is signed in
+                if (user != null) {
+                }
+
+                // If user is not signed in
+                else {
+                    // Go back to log in screen
                     goToLogInScreen();
                 }
             }
@@ -68,13 +69,13 @@ public class FifthActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-
+                // whenever data at this location is updated
                 User user = dataSnapshot.getValue(User.class);
+
+                // Get user temperature
                 test_string = user.getTemp();
-                city = user.getCity();
 
-
+                // If the user temperature is not null
                 if (test_string != null) {
                     show();
                 }
@@ -100,18 +101,26 @@ public class FifthActivity extends AppCompatActivity {
 
                 Bundle extras = getIntent().getExtras();
 
-                temperature_string = extras.getString("temperature");
+                temperatureString = extras.getString("temperature");
                 settings = extras.getString("setting");
+                search = extras.getString("search");
+
+
             }
 
             // If previous activity was the log in screen, get the current temperature
             else if (activity.equals("ThirdActivity")){
 
                 Bundle extras = getIntent().getExtras();
+                temperatureString = extras.getString("temp");
+                search = extras.getString("search");
 
-                temperature_string = extras.getString("temp");
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
     // Renders the menu in the main activity
@@ -173,21 +182,19 @@ public class FifthActivity extends AppCompatActivity {
 
         // Show temperature
         TextView show_temperature = (TextView) findViewById(R.id.show_temp);
-        show_temperature.setText(temperature_string + " ℃");
+        show_temperature.setText(temperatureString + " ℃");
 
         // Cast to float
-        temperature = Float.parseFloat(temperature_string);
-        test = Float.parseFloat(test_string);
+        float temperature = Float.parseFloat(temperatureString);
+        float test = Float.parseFloat(test_string);
 
         // Set visibility shirt/jacket and text
         ImageView shirt = (ImageView) findViewById(R.id.show_img_shirt);
         ImageView jacket = (ImageView) findViewById(R.id.show_img_jacket);
         TextView userText = (TextView) findViewById(R.id.show_txt);
-        TextView userCity = (TextView) findViewById(R.id.show_city);
+        TextView showCity = (TextView) findViewById(R.id.show_city);
 
-
-
-        userCity.setText(city.toUpperCase());
+        showCity.setText(search);
 
         if (temperature <= test) {
             jacket.setVisibility(View.VISIBLE);
@@ -200,5 +207,6 @@ public class FifthActivity extends AppCompatActivity {
             jacket.setVisibility(View.INVISIBLE);
             userText.setText("Shirt");
         }
+
     }
 }

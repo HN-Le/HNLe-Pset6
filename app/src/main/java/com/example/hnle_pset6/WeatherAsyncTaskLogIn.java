@@ -1,3 +1,8 @@
+
+//  LOGIN PAGE
+
+
+
 package com.example.hnle_pset6;
 
 import android.content.Context;
@@ -14,6 +19,7 @@ public class WeatherAsyncTaskLogIn extends AsyncTask<String, Integer, String> {
     Context context;
     String temperature_string;
     ThirdActivity thirdAct;
+    String search;
 
     public WeatherAsyncTaskLogIn(ThirdActivity third){
         this.thirdAct = third;
@@ -36,9 +42,13 @@ public class WeatherAsyncTaskLogIn extends AsyncTask<String, Integer, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
 
+
         try {
 
             JSONObject temperatureStreamObject = new JSONObject(result);
+            JSONObject searchObj = new JSONObject(result);
+            search = searchObj.getString("name");
+
             JSONObject temperatureObj = temperatureStreamObject.getJSONObject("main");
             temperature_string = temperatureObj.getString("temp");
 
@@ -48,6 +58,9 @@ public class WeatherAsyncTaskLogIn extends AsyncTask<String, Integer, String> {
             e.printStackTrace();
         }
 
+        this.thirdAct.retrieveSearch(search);
         this.thirdAct.goToFifth(temperature_string);
     }
+
+
 }

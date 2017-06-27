@@ -1,3 +1,9 @@
+/*
+    The second screen a new user sees or when an existing user signed out and pressed the
+    "not registered yet" button. In this screen the user can register for an account with their
+    email.
+ */
+
 package com.example.hnle_pset6;
 
 import android.content.Intent;
@@ -19,8 +25,8 @@ public class SecondActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    String email;
-    String password;
+    private String email;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,37 +35,6 @@ public class SecondActivity extends AppCompatActivity {
 
         // Initialize the FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();
-
-        // Initialize listener to track user signing in/out
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-
-                    // Go straight to Core screen TODO
-                    Log.d("LOGED IN", "onAuthStateChanged:signed_in:" + user.getUid());
-                }
-            }
-        };
-
-    }
-
-    // Attach listener to FirebaseAuth
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    // Remove listener from FirebaseAuth
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
     }
 
     // When tapped on the register button
@@ -114,22 +89,18 @@ public class SecondActivity extends AppCompatActivity {
                 });
     }
 
-    // Go to Log In screen
+    // Go to log in screen
     public void goToLogin(View view) {
         Intent login = new Intent(this, ThirdActivity.class);
-        Bundle extra = new Bundle();
-
-        extra.putString("ID", "FourthActivity");
-
-        login.putExtras(extra);
         startActivity(login);
     }
 
     // Go to settings screen
     public void goToSettings(){
 
-        // Go to settings screen
         Intent settings = new Intent(this, FourthActivity.class);
         startActivity(settings);
     }
+
+
 }

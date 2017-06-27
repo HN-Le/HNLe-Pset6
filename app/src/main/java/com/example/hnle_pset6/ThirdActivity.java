@@ -1,3 +1,10 @@
+/*
+    The second screen a new user sees or when an existing user was on the register screen and
+    pressed the "already a member" button. In this screen the user can log in with their email
+    and password.
+ */
+
+
 package com.example.hnle_pset6;
 
 import android.content.Intent;
@@ -25,11 +32,12 @@ public class ThirdActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    String email;
-    String password;
-    String emailEncode;
-    String userTemp;
-    String userCity;
+    private String email;
+    private String password;
+    private String emailEncode;
+    private String userTemp;
+    private String userCity;
+    String search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,35 +49,6 @@ public class ThirdActivity extends AppCompatActivity {
 
         // Initialize firebase database
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        // Initialize listener
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d("LOGED IN", "onAuthStateChanged:signed_in:" + user.getUid());
-                }
-
-            }
-        };
-    }
-
-    // Attach listener to FirebaseAuth
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    // Remove listener from FirebaseAuth
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
     }
 
     // Go to register screen
@@ -88,7 +67,7 @@ public class ThirdActivity extends AppCompatActivity {
         email = loginEmail.getText().toString();
         password = loginPassword.getText().toString();
 
-        // Give a warning when there is no mail filled in
+        // Give a warning when there is no email filled in
         if (email.equals("")){
             Toast.makeText(ThirdActivity.this, "Invalid mail!",
                     Toast.LENGTH_SHORT).show();
@@ -100,6 +79,7 @@ public class ThirdActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
 
+        // If everything is filled in try to log in the user
         else { logInUser(); }
     }
 
@@ -109,12 +89,10 @@ public class ThirdActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("LOGGED IN", "signInWithEmail:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user
                         if (!task.isSuccessful()) {
-                            Log.w("LOGGED IN", "signInWithEmail:failed", task.getException());
-                            Toast.makeText(ThirdActivity.this, "Sign in failed! Please try again",
+                            Toast.makeText(ThirdActivity.this, "Failed to sign in!, please try again",
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -123,52 +101,66 @@ public class ThirdActivity extends AppCompatActivity {
                             Toast.makeText(ThirdActivity.this, "Signed in",
                                     Toast.LENGTH_SHORT).show();
 
-                            // Encode string to find in database
-                            emailEncode = EncodeString(email);
+                            // Replace "." with "," to find email in database
+                            emailEncode = encodeString(email);
 
                             // Retrieve user preference
                             mDatabase.child("users").child(emailEncode).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
+
                                     // This method is called once with the initial value and again
                                     // whenever data at this location is updated.
-
                                     User user = dataSnapshot.getValue(User.class);
+
+                                    // Get the user temperature and city settings
                                     userTemp = user.getTemp();
                                     userCity = user.getCity();
 
+                                    // If the user temperature is not null
                                     if (userTemp != null) {
+
+                                        // Use asynctask to retrieve current temperature based on user city
                                         WeatherAsyncTaskLogIn Asynctask = new WeatherAsyncTaskLogIn(ThirdActivity.this);
                                         Asynctask.execute(userCity);
+
                                     }
                                 }
 
+                                // Error check
                                 @Override
                                 public void onCancelled(DatabaseError error) {
                                     // Failed to read value
-                                    Log.w("result", "Failed to read value.", error.toException());
+                                    Toast.makeText(ThirdActivity.this, "Database error!, Please try again.",
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             });
-
                         }
                     }
                 });
     }
 
-    // Go to the core screen where temperature is shown
+    // Go to the fifth screen where current temperature is shown
     public void goToFifth(String temp){
         Intent loggedIn = new Intent(this, FifthActivity.class);
 
+        // Make a bundle to pass ID and current temperature to the next screen
         Bundle extra = new Bundle();
         extra.putString("ID", "ThirdActivity");
         extra.putString("temp", temp);
-
+        extra.putString("search", search);
         loggedIn.putExtras(extra);
+
+        // Go to next screen
         startActivity(loggedIn);
     }
 
-    public static String EncodeString(String string) {
-        return string.replace(".", ",");
+    // Function that turns "." into ","
+    public static String encodeString(String string) { return string.replace(".", ","); }
+
+    public String retrieveSearch(String cityName){
+        search = cityName;
+        return search;
     }
 
 }

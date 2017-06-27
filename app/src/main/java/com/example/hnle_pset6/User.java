@@ -16,27 +16,13 @@ public class User {
         this.city = cities;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getTemp() {
         return temp;
     }
 
-    public void setTemp(String temp) {
-        this.temp = temp;
-    }
 
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
 }

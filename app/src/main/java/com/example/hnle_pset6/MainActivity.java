@@ -1,9 +1,15 @@
+/*
+    The first screen a new user will see when the app is opened
+
+ */
+
 package com.example.hnle_pset6;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,9 +19,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    // When the button "Start" is tapped go to the next activity
     public void intro_button(View view) {
         Intent register = new Intent(this, SecondActivity.class);
         startActivity(register);
     }
-
 }

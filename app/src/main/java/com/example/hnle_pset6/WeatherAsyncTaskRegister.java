@@ -1,6 +1,11 @@
+
+
+//  SETTINGS PAGE
+
 package com.example.hnle_pset6;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -11,8 +16,10 @@ import android.util.Log;
 
 public class WeatherAsyncTaskRegister extends AsyncTask<String, Integer, String> {
     Context context;
+
     String temperature;
     FourthActivity fourthAct;
+    String search;
 
     public WeatherAsyncTaskRegister(FourthActivity fourth){
         this.fourthAct = fourth;
@@ -38,18 +45,23 @@ public class WeatherAsyncTaskRegister extends AsyncTask<String, Integer, String>
         try {
 
             JSONObject temperatureStreamObject = new JSONObject(result);
+            JSONObject searchObj = new JSONObject(result);
+            search = searchObj.getString("name");
+
             JSONObject temperatureObj = temperatureStreamObject.getJSONObject("main");
-
             temperature = temperatureObj.getString("temp");
-            Log.d("result", temperature);
 
         }
 
-        catch(JSONException e){
-                e.printStackTrace();
-        }
+            catch (JSONException e) { e.printStackTrace(); }
 
-        this.fourthAct.goToCoreScreen(temperature);
+        this.fourthAct.check(temperature);
+
+        if (this.fourthAct.check != null){
+
+            this.fourthAct.retrieveSearch(search);
+            this.fourthAct.goToFifthScreen(temperature);
+        }
 
     }
 }
