@@ -1,6 +1,9 @@
 /*
-    The fifth screen the user will see the current temperature, the city and whether he/she
-    needs to wear a shirt or jacket based on their preferences.
+ *  Hy Nhu Le (Tiny)
+ *   11130717
+ *
+ *   The fifth screen the user will see the current temperature, the city and whether he/she
+ *   needs to wear a shirt or jacket based on their preferences.
 */
 
 package com.example.hnle_pset6;
@@ -9,6 +12,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,11 +28,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class FifthActivity extends AppCompatActivity {
+public class WeatherActivity extends AppCompatActivity {
 
     public String settings;
     private String temperatureString;
-    private String test_string;
+    private String userTemperature;
     private String city;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -51,47 +55,20 @@ public class FifthActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                // User is signed in
-                if (user != null) {
-                }
-
-                // If user is not signed in
-                else {
+                // User is not signed in
+                if (user == null) {
                     // Go back to log in screen
                     goToLogInScreen();
                 }
             }
         };
 
-        // Get current user
-        final String uid = EncodeString(mAuth.getCurrentUser().getEmail());
-
-        // Retrieve user preference
-        mDatabase.child("users").child(uid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated
-                User user = dataSnapshot.getValue(User.class);
-
-                // Get user temperature
-                test_string = user.getTemp();
-
-                // If the user temperature is not null
-                if (test_string != null) {
-                    show();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Toast.makeText(FifthActivity.this, "Database Error! ",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        retrieveUserData();
 
         // Get data from previous activities
         retrieveData();
+
+
 
     }
 
@@ -125,12 +102,12 @@ public class FifthActivity extends AppCompatActivity {
     }
 
     public void goToSettings(){
-        Intent intent = new Intent(this, FourthActivity.class);
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
     public void goToLogInScreen() {
-        Intent intent = new Intent(this, ThirdActivity.class);
+        Intent intent = new Intent(this, LogInActivity.class);
         startActivity(intent);
     }
 
@@ -162,7 +139,7 @@ public class FifthActivity extends AppCompatActivity {
 
         // Cast to float
         float temperature = Float.parseFloat(temperatureString);
-        float test = Float.parseFloat(test_string);
+        float test = Float.parseFloat(userTemperature);
 
         // Set visibility shirt/jacket and text
         ImageView shirt = (ImageView) findViewById(R.id.show_img_shirt);
@@ -194,27 +171,75 @@ public class FifthActivity extends AppCompatActivity {
 
             // See what previous activity was
             String activity = intent.getExtras().getString("ID");
+            Log.d("INTENT", activity);
 
             // If previous activity was the setting screen, get the new/adjusted temperature
-            if (activity.equals("FourthActivity")) {
+            if (activity.equals("SettingsActivity")) {
 
                 Bundle extras = getIntent().getExtras();
 
                 temperatureString = extras.getString("temperature");
                 settings = extras.getString("setting");
                 city = extras.getString("city");
-
             }
 
             // If previous activity was the log in screen, get the current temperature
-            else if (activity.equals("ThirdActivity")) {
+            else if (activity.equals("LogInActivity")) {
 
                 Bundle extras = getIntent().getExtras();
                 temperatureString = extras.getString("temp");
                 city = extras.getString("city");
 
             }
+
+            else if (activity.equals("StartActivity")) {
+                Bundle extras = getIntent().getExtras();
+                city = extras.getString("city");
+
+                WeatherAsyncTaskExistingUser Asynctask = new WeatherAsyncTaskExistingUser(WeatherActivity.this);
+                Asynctask.execute(city);
+            }
         }
     }
 
+    public void retrieveUserData(){
+
+        final String uid = EncodeString(mAuth.getCurrentUser().getEmail());
+
+        // Retrieve user preference
+        mDatabase.child("users").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated
+                User user = dataSnapshot.getValue(User.class);
+
+                // Get user temperature
+                userTemperature = user.getTemp();
+
+                // If the user temperature is not null
+                if (userTemperature != null) {
+                    show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(WeatherActivity.this, "Database Error! ",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public String retrieveTemp(String temp){
+        temperatureString = temp;
+        Log.d("IETS", temperatureString);
+        return temperatureString;
+
+    }
+
+    public String retrieveCity(String temp){
+        city = temp;
+        return city;
+    }
 }

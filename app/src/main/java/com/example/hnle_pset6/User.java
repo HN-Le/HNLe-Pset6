@@ -1,3 +1,10 @@
+/*
+ *  Hy Nhu Le (Tiny)
+ *  11130717
+ *
+ *   Object class to store user and user preferences
+*/
+
 package com.example.hnle_pset6;
 
 public class User {

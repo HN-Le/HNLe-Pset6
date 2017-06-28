@@ -1,5 +1,8 @@
 /*
-    Asynctask to retrieve the city and temperature in the API for new users
+ *  Hy Nhu Le (Tiny)
+ *   11130717
+ *
+ *   Asynctask to retrieve the city and temperature in the API for new users
 */
 
 package com.example.hnle_pset6;
@@ -13,12 +16,12 @@ public class WeatherAsyncTaskRegister extends AsyncTask<String, Integer, String>
     Context context;
 
     String temperature;
-    FourthActivity fourthAct;
+    SettingsActivity settingsAct;
     String city;
 
-    public WeatherAsyncTaskRegister(FourthActivity fourth){
-        this.fourthAct = fourth;
-        this.context = this.fourthAct.getApplicationContext();
+    public WeatherAsyncTaskRegister(SettingsActivity fourth){
+        this.settingsAct = fourth;
+        this.context = this.settingsAct.getApplicationContext();
     }
 
     // Before app searches in API
@@ -45,20 +48,16 @@ public class WeatherAsyncTaskRegister extends AsyncTask<String, Integer, String>
 
             JSONObject temperatureObj = temperatureStreamObject.getJSONObject("main");
             temperature = temperatureObj.getString("temp");
-
         }
-
             catch (JSONException e) { e.printStackTrace(); }
 
         // Sent temperature back to fourth activity
-        this.fourthAct.retrieveTemp(temperature);
+        this.settingsAct.retrieveTemp(temperature);
 
         // Only sent the city and temperature back if it exists
-        if (this.fourthAct.check != null){
-
-            this.fourthAct.retrieveCity(city);
-            this.fourthAct.goToFifthScreen(temperature);
+        if (this.settingsAct.check != null){
+            this.settingsAct.retrieveCity(city);
+            this.settingsAct.goToFifthScreen(temperature);
         }
-
     }
 }

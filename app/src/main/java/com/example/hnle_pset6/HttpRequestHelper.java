@@ -4,9 +4,6 @@
 
 package com.example.hnle_pset6;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,6 +16,7 @@ public class HttpRequestHelper {
 
     protected static synchronized String downloadFromServer(String... params) {
         String result = "";
+
         // the city name from user input
         String chosenTag = params[0];
 
@@ -27,8 +25,6 @@ public class HttpRequestHelper {
         try {
             url = "http://api.openweathermap.org/data/2.5/weather?q=" + chosenTag + ",nl&units=metric&APPID=0627785f144d64903f9f797cc9a1e945" ;
             site = new URL(url);
-            Log.d("RESULT", url);
-
         }
 
         catch (MalformedURLException e) {
@@ -37,6 +33,7 @@ public class HttpRequestHelper {
 
         HttpURLConnection connect;
 
+        // Download from API
         try {
             // Initialize
             connect = (HttpURLConnection) site.openConnection();

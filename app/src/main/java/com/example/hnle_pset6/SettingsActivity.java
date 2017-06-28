@@ -1,6 +1,9 @@
 /*
-    The fourth screen a new user sees or an existing user who wants to change its preference.
-    In this screen the user can change the city and temperature.
+ *  Hy Nhu Le (Tiny)
+ *   11130717
+ *
+ *   The fourth screen a new user sees or an existing user who wants to change its preference.
+ *   In this screen the user can change the city and temperature.
 */
 
 package com.example.hnle_pset6;
@@ -18,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class FourthActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -46,14 +49,8 @@ public class FourthActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                // If user is signed
-                if (user != null) {
-                }
-
-                // If the user is not signed in
-                else {
-
-                    // Sent back to log in screen
+                // If user is not signed in
+                if (user == null) {
                     goToLogInScreen();
                 }
             }
@@ -100,13 +97,13 @@ public class FourthActivity extends AppCompatActivity {
 
             // Show warning if the temperature field is left blank
             if (settingTemp.equals("")){
-            Toast.makeText(FourthActivity.this, "Please fill in a temperature!",
+            Toast.makeText(SettingsActivity.this, "Please fill in a temperature!",
                     Toast.LENGTH_SHORT).show();
             }
 
             // Show warning if the city field is left blank
             if (settingsCity.equals("")){
-                Toast.makeText(FourthActivity.this, "Please fill in a city!",
+                Toast.makeText(SettingsActivity.this, "Please fill in a city!",
                         Toast.LENGTH_SHORT).show();
             }
 
@@ -121,11 +118,11 @@ public class FourthActivity extends AppCompatActivity {
     // Go to the fifth screen where current temperature is shown
     public void goToFifthScreen(String temp){
 
-        Intent intent = new Intent(this, FifthActivity.class);
+        Intent intent = new Intent(this, WeatherActivity.class);
 
         // Make a bundle to pass ID, user temperature and current temperature to the next screen
         Bundle extra = new Bundle();
-        extra.putString("ID", "FourthActivity");
+        extra.putString("ID", "SettingsActivity");
         extra.putString("setting", settingTemp);
         extra.putString("temperature", temp);
         extra.putString("city", city);
@@ -137,13 +134,13 @@ public class FourthActivity extends AppCompatActivity {
 
     // Function to go to the in log screen
     public void goToLogInScreen() {
-        Intent intent = new Intent(this, ThirdActivity.class);
+        Intent intent = new Intent(this, LogInActivity.class);
         startActivity(intent);
     }
 
     // Function to go to the register screen
     public void goToRegisterScreen() {
-        Intent intent = new Intent(this, SecondActivity.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
@@ -182,7 +179,7 @@ public class FourthActivity extends AppCompatActivity {
 
         // Give a warning if the city is an nonsense input
         if(retrieveTemp(check) == null){
-            Toast.makeText(FourthActivity.this, "Please fill in an existing city!",
+            Toast.makeText(SettingsActivity.this, "Please fill in an existing city!",
                     Toast.LENGTH_SHORT).show();
         }
     }

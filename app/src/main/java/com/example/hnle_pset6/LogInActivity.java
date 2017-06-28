@@ -1,7 +1,10 @@
 /*
-    The third screen a new user sees or when an existing user was on the register screen and
-    pressed the "already a member" button. In this screen the user can log in with their email
-    and password or get redirected to the register screen by tapping the "Not a member yet?" button.
+ * Hy Nhu Le (Tiny)
+ *  11130717
+ *
+ *  The third screen a new user sees or when an existing user was on the register screen and
+ *  pressed the "already a member" button. In this screen the user can log in with their email
+ *  and password or get redirected to the register screen by tapping the "Not a member yet?" button.
 */
 
 
@@ -11,6 +14,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,7 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ThirdActivity extends AppCompatActivity {
+public class LogInActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -35,6 +39,7 @@ public class ThirdActivity extends AppCompatActivity {
     private String userTemp;
     private String userCity;
     public String city;
+    String temperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,7 @@ public class ThirdActivity extends AppCompatActivity {
 
     // Go to register screen
     public void goToRegister(View view) {
-        Intent register = new Intent(this, SecondActivity.class);
+        Intent register = new Intent(this, RegisterActivity.class);
         startActivity(register);
     }
 
@@ -66,13 +71,13 @@ public class ThirdActivity extends AppCompatActivity {
 
         // Give a warning when the email field is left blank
         if (email.equals("")){
-            Toast.makeText(ThirdActivity.this, "Invalid mail!",
+            Toast.makeText(LogInActivity.this, "Invalid mail!",
                     Toast.LENGTH_SHORT).show();
         }
 
         // Give a warning when the password is shorter than 6 characters
         if (password.length() < 6){
-            Toast.makeText(ThirdActivity.this, "Password too short!",
+            Toast.makeText(LogInActivity.this, "Password too short!",
                     Toast.LENGTH_SHORT).show();
         }
 
@@ -89,13 +94,13 @@ public class ThirdActivity extends AppCompatActivity {
 
                         // If sign in fails, display a message to the user
                         if (!task.isSuccessful()) {
-                            Toast.makeText(ThirdActivity.this, "Failed to sign in!, please try again",
+                            Toast.makeText(LogInActivity.this, "Failed to sign in!, please try again",
                                     Toast.LENGTH_SHORT).show();
                         }
 
                         // If sign in succeeds
                         else {
-                            Toast.makeText(ThirdActivity.this, "Signed in",
+                            Toast.makeText(LogInActivity.this, "Signed in",
                                     Toast.LENGTH_SHORT).show();
 
                             // Replace "." with "," to find email in database
@@ -118,7 +123,7 @@ public class ThirdActivity extends AppCompatActivity {
                                     if (userTemp != null) {
 
                                         // Use asynctask to retrieve current temperature based on user city
-                                        WeatherAsyncTaskLogIn Asynctask = new WeatherAsyncTaskLogIn(ThirdActivity.this);
+                                        WeatherAsyncTaskLogIn Asynctask = new WeatherAsyncTaskLogIn(LogInActivity.this);
                                         Asynctask.execute(userCity);
 
                                     }
@@ -128,7 +133,7 @@ public class ThirdActivity extends AppCompatActivity {
                                 @Override
                                 public void onCancelled(DatabaseError error) {
                                     // Failed to read value
-                                    Toast.makeText(ThirdActivity.this, "Database error!, Please try again.",
+                                    Toast.makeText(LogInActivity.this, "Database error!, Please try again.",
                                             Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -139,11 +144,11 @@ public class ThirdActivity extends AppCompatActivity {
 
     // Go to the fifth screen where current temperature is shown
     public void goToFifth(String temp){
-        Intent loggedIn = new Intent(this, FifthActivity.class);
+        Intent loggedIn = new Intent(this, WeatherActivity.class);
 
         // Make a bundle to pass ID and current temperature to the next screen
         Bundle extra = new Bundle();
-        extra.putString("ID", "ThirdActivity");
+        extra.putString("ID", "LogInActivity");
         extra.putString("temp", temp);
         extra.putString("city", city);
         loggedIn.putExtras(extra);
@@ -163,8 +168,9 @@ public class ThirdActivity extends AppCompatActivity {
         return city;
     }
 
-    public void retrieveData(){
+    public String retrieveTemp(String temp){
+        temperature = temp;
+        return temperature;
 
     }
-
 }

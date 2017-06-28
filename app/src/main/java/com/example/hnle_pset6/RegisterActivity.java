@@ -1,8 +1,11 @@
 /*
-    The second screen a new user sees or when an existing user signed out and pressed the
-    "Not registered yet?" button. In this screen the user can register for an account with their
-    email. Or go to the login screen by pressing the "Already a member" button that redirects the
-    user to the log in screen.
+ * Hy Nhu Le (Tiny)
+ *  11130717
+ *
+ * The second screen a new user sees or when an existing user signed out and pressed the
+ *  "Not registered yet?" button. In this screen the user can register for an account with their
+ *  email. Or go to the login screen by pressing the "Already a member" button that redirects the
+ *  user to the log in screen.
  */
 
 package com.example.hnle_pset6;
@@ -20,7 +23,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SecondActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -49,13 +52,13 @@ public class SecondActivity extends AppCompatActivity {
 
         // Give a warning when the email field is left blank
         if (email.equals("")){
-            Toast.makeText(SecondActivity.this, "Invalid mail!",
+            Toast.makeText(RegisterActivity.this, "Invalid mail!",
                     Toast.LENGTH_SHORT).show();
         }
 
         // Give a warning when password is shorter than 6 characters
         if (password.length() < 6){
-            Toast.makeText(SecondActivity.this, "Password too short!",
+            Toast.makeText(RegisterActivity.this, "Password too short!",
                     Toast.LENGTH_SHORT).show();
         }
 
@@ -73,13 +76,13 @@ public class SecondActivity extends AppCompatActivity {
 
                         // If sign in fails, display a message to the user.
                         if (!task.isSuccessful()) {
-                            Toast.makeText(SecondActivity.this, "Cannot make account! Please try again",
+                            Toast.makeText(RegisterActivity.this, "Cannot make account! Please try again",
                                     Toast.LENGTH_SHORT).show();
                         }
 
                         // If sign in succeeds
                         else {
-                            Toast.makeText(SecondActivity.this, "Account created!",
+                            Toast.makeText(RegisterActivity.this, "Account created!",
                                     Toast.LENGTH_SHORT).show();
 
                             // If register succeeded go to settings screen for setup
@@ -91,14 +94,14 @@ public class SecondActivity extends AppCompatActivity {
 
     // Go to log in screen
     public void goToLogin(View view) {
-        Intent login = new Intent(this, ThirdActivity.class);
+        Intent login = new Intent(this, LogInActivity.class);
         startActivity(login);
     }
 
     // Go to settings screen
     public void goToSettings(){
 
-        Intent settings = new Intent(this, FourthActivity.class);
+        Intent settings = new Intent(this, SettingsActivity.class);
         startActivity(settings);
     }
 }
