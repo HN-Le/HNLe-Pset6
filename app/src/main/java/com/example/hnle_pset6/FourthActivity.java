@@ -111,27 +111,7 @@ public class FourthActivity extends AppCompatActivity {
             }
 
             // If everything is filled in, save it in database and get current temperature
-            else {
-
-            // Make a new User object and save the email and preferred temperature
-            User userSettings = new User (userId, settingTemp, settingCity);
-
-            // Replace "." with "," to put into database
-            String encodeEmail = EncodeString(userId);
-
-            // Put into database
-            mDatabase.child("users").child(encodeEmail).setValue(userSettings);
-
-            // Use asynctask to get current temperature of the city the user
-            WeatherAsyncTaskRegister Asynctask = new WeatherAsyncTaskRegister(this);
-            Asynctask.execute(settingCity);
-
-                // Give a warning if the city is an nonsense input
-                if(retrieveTemp(check) == null){
-                    Toast.makeText(FourthActivity.this, "Please fill in an existing city!",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
+            else { saveData(); }
         }
 
         // If not logged in go to register screen
@@ -186,5 +166,25 @@ public class FourthActivity extends AppCompatActivity {
         return city;
     }
 
+    public void saveData(){
+        // Make a new User object and save the email and preferred temperature
+        User userSettings = new User (userId, settingTemp, settingCity);
+
+        // Replace "." with "," to put into database
+        String encodeEmail = EncodeString(userId);
+
+        // Put into database
+        mDatabase.child("users").child(encodeEmail).setValue(userSettings);
+
+        // Use asynctask to get current temperature of the city the user
+        WeatherAsyncTaskRegister Asynctask = new WeatherAsyncTaskRegister(this);
+        Asynctask.execute(settingCity);
+
+        // Give a warning if the city is an nonsense input
+        if(retrieveTemp(check) == null){
+            Toast.makeText(FourthActivity.this, "Please fill in an existing city!",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 }
 

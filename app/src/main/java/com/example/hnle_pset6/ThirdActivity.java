@@ -163,4 +163,8 @@ public class ThirdActivity extends AppCompatActivity {
         return city;
     }
 
+    public void retrieveData(){
+
+    }
+
 }

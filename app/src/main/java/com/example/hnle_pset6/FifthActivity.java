@@ -90,35 +90,9 @@ public class FifthActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = this.getIntent();
+        // Get data from previous activities
+        retrieveData();
 
-        // As long as the intent exists
-        if (intent != null) {
-
-            // See what previous activity was
-            String activity = intent.getExtras().getString("ID");
-
-            // If previous activity was the setting screen, get the new/adjusted temperature
-            if (activity.equals("FourthActivity")) {
-
-                Bundle extras = getIntent().getExtras();
-
-                temperatureString = extras.getString("temperature");
-                settings = extras.getString("setting");
-                city = extras.getString("city");
-
-
-            }
-
-            // If previous activity was the log in screen, get the current temperature
-            else if (activity.equals("ThirdActivity")){
-
-                Bundle extras = getIntent().getExtras();
-                temperatureString = extras.getString("temp");
-                city = extras.getString("city");
-
-            }
-        }
     }
 
     @Override
@@ -211,4 +185,36 @@ public class FifthActivity extends AppCompatActivity {
         }
 
     }
+
+    public void retrieveData(){
+        Intent intent = this.getIntent();
+
+        // As long as the intent exists
+        if (intent != null) {
+
+            // See what previous activity was
+            String activity = intent.getExtras().getString("ID");
+
+            // If previous activity was the setting screen, get the new/adjusted temperature
+            if (activity.equals("FourthActivity")) {
+
+                Bundle extras = getIntent().getExtras();
+
+                temperatureString = extras.getString("temperature");
+                settings = extras.getString("setting");
+                city = extras.getString("city");
+
+            }
+
+            // If previous activity was the log in screen, get the current temperature
+            else if (activity.equals("ThirdActivity")) {
+
+                Bundle extras = getIntent().getExtras();
+                temperatureString = extras.getString("temp");
+                city = extras.getString("city");
+
+            }
+        }
+    }
+
 }
