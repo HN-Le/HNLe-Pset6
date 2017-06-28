@@ -60,7 +60,7 @@ public class WeatherAsyncTaskRegister extends AsyncTask<String, Integer, String>
         if (!TextUtils.isEmpty(city)){
             this.settingsAct.retrieveCity(city);
             this.settingsAct.saveData();
-            this.settingsAct.goToFifthScreen(temperature);
+            this.settingsAct.goToWeather(temperature);
         }
     }
 }

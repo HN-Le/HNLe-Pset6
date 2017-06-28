@@ -48,7 +48,6 @@ public class WeatherAsyncTaskLogIn extends AsyncTask<String, Integer, String> {
 
             JSONObject temperatureObj = temperatureStreamObject.getJSONObject("main");
             temperatureString = temperatureObj.getString("temp");
-
         }
 
         catch(JSONException e){
@@ -63,6 +62,4 @@ public class WeatherAsyncTaskLogIn extends AsyncTask<String, Integer, String> {
         // Go to the fifth screen and sent the temperature data to the login activity
         this.LogInAct.goToFifth(temperatureString);
     }
-
-
 }

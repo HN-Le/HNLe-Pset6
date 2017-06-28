@@ -48,19 +48,10 @@ public class StartActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Log.d("USERS", "2");
-
                     retrieveExistingUser();
-
-                }
-                else {
-                    Log.d("USERS", "NO USER");
-
                 }
             }
         };
-
-        Log.d("USERS", "1");
 
     }
 
@@ -83,23 +74,12 @@ public class StartActivity extends AppCompatActivity {
     }
 
     // When the button "Start" is tapped go to the next activity
-    public void intro_button(View view) {
+    public void startButton(View view) {
         Intent register = new Intent(this, RegisterActivity.class);
         startActivity(register);
     }
 
-    public String retrieveTemp(String temp){
-        userTemperature = temp;
-        return userTemperature;
-
-    }
-
-    public String retrieveCity(String temp){
-        userCity = temp;
-        return userCity;
-    }
-
-    public void goToFifth(){
+    public void goToWeather(){
         Intent intent = new Intent(this, WeatherActivity.class);
         Bundle extra = new Bundle();
 
@@ -126,7 +106,7 @@ public class StartActivity extends AppCompatActivity {
                 userTemperature = user.getTemp();
                 userCity = user.getCity();
 
-                goToFifth();
+                goToWeather();
 
             }
 

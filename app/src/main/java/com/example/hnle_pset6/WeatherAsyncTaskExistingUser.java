@@ -9,8 +9,6 @@ package com.example.hnle_pset6;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,12 +41,6 @@ public class WeatherAsyncTaskExistingUser extends AsyncTask<String, Integer, Str
 
 
         try {
-
-            Log.d("VOLGORDE", "1");
-//            this.start.retrieveExistingUser();
-
-            Log.d("VOLGORDE", "2");
-
             // Save city and temperature data in a string
             JSONObject temperatureStreamObject = new JSONObject(result);
             JSONObject searchObj = new JSONObject(result);
@@ -56,7 +48,6 @@ public class WeatherAsyncTaskExistingUser extends AsyncTask<String, Integer, Str
 
             JSONObject temperatureObj = temperatureStreamObject.getJSONObject("main");
             temperatureString = temperatureObj.getString("temp");
-
         }
 
         catch(JSONException e){

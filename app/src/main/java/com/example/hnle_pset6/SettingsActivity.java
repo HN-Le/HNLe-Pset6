@@ -117,7 +117,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     // Go to the fifth screen where current temperature is shown
-    public void goToFifthScreen(String temp){
+    public void goToWeather(String temp){
 
         Intent intent = new Intent(this, WeatherActivity.class);
 
@@ -146,7 +146,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     // Function that turns "." into ","
-    public static String EncodeString(String string) {
+    public static String encodeString(String string) {
         return string.replace(".", ",");
     }
 
@@ -184,7 +184,7 @@ public class SettingsActivity extends AppCompatActivity {
         User userSettings = new User (userId, settingTemp, settingCity);
 
         // Replace "." with "," to put into database
-        String encodeEmail = EncodeString(userId);
+        String encodeEmail = encodeString(userId);
 
         // Put into database
         mDatabase.child("users").child(encodeEmail).setValue(userSettings);

@@ -100,7 +100,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     // Go to settings screen
     public void goToSettings(){
-
         Intent settings = new Intent(this, SettingsActivity.class);
         startActivity(settings);
     }

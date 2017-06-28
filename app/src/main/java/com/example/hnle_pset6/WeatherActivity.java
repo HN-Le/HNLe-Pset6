@@ -68,9 +68,6 @@ public class WeatherActivity extends AppCompatActivity {
 
         // Get data from previous activities
         retrieveData();
-
-
-
     }
 
     @Override
