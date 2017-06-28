@@ -1,25 +1,19 @@
-
-//  LOGIN PAGE
-
-
+/*
+    Asynctask to retrieve the city and temperature in the API for existing users
+*/
 
 package com.example.hnle_pset6;
 
 import android.content.Context;
-
 import android.os.AsyncTask;
-import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 public class WeatherAsyncTaskLogIn extends AsyncTask<String, Integer, String> {
-    Context context;
-    String temperature_string;
-    ThirdActivity thirdAct;
-    String search;
+    private Context context;
+    private String temperatureString;
+    private ThirdActivity thirdAct;
+    public String city;
 
     public WeatherAsyncTaskLogIn(ThirdActivity third){
         this.thirdAct = third;
@@ -44,13 +38,13 @@ public class WeatherAsyncTaskLogIn extends AsyncTask<String, Integer, String> {
 
 
         try {
-
+            // Save city and temperature data in a string
             JSONObject temperatureStreamObject = new JSONObject(result);
             JSONObject searchObj = new JSONObject(result);
-            search = searchObj.getString("name");
+            city = searchObj.getString("name");
 
             JSONObject temperatureObj = temperatureStreamObject.getJSONObject("main");
-            temperature_string = temperatureObj.getString("temp");
+            temperatureString = temperatureObj.getString("temp");
 
         }
 
@@ -58,8 +52,11 @@ public class WeatherAsyncTaskLogIn extends AsyncTask<String, Integer, String> {
             e.printStackTrace();
         }
 
-        this.thirdAct.retrieveSearch(search);
-        this.thirdAct.goToFifth(temperature_string);
+        // Sent back the city data
+        this.thirdAct.retrieveCity(city);
+
+        // Go to the fifth screen and sent the temperature data to the login activity
+        this.thirdAct.goToFifth(temperatureString);
     }
 
 

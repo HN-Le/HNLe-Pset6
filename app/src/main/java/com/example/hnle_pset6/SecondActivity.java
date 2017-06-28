@@ -1,7 +1,8 @@
 /*
     The second screen a new user sees or when an existing user signed out and pressed the
-    "not registered yet" button. In this screen the user can register for an account with their
-    email.
+    "Not registered yet?" button. In this screen the user can register for an account with their
+    email. Or go to the login screen by pressing the "Already a member" button that redirects the
+    user to the log in screen.
  */
 
 package com.example.hnle_pset6;
@@ -10,7 +11,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,7 +19,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -48,7 +47,7 @@ public class SecondActivity extends AppCompatActivity {
         email = register_email.getText().toString();
         password = register_password.getText().toString();
 
-        // Give a warning when there is no mail filled in
+        // Give a warning when the email field is left blank
         if (email.equals("")){
             Toast.makeText(SecondActivity.this, "Invalid mail!",
                     Toast.LENGTH_SHORT).show();
@@ -64,6 +63,7 @@ public class SecondActivity extends AppCompatActivity {
         else { createUser(); }
     }
 
+    // Function to create a new user. Returns a message if it fails.
     public void createUser() {
         // Create a new user
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -101,6 +101,4 @@ public class SecondActivity extends AppCompatActivity {
         Intent settings = new Intent(this, FourthActivity.class);
         startActivity(settings);
     }
-
-
 }

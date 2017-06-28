@@ -1,5 +1,6 @@
 /*
-    The first screen a new user will see when the app is opened
+    The first screen a new user will see when the app is opened. Mainly used a visual teaser
+    for the app. Shows a start button with the only purpose to go to the next screen.
 
  */
 

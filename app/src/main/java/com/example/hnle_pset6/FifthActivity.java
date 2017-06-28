@@ -1,10 +1,14 @@
+/*
+    The fifth screen the user will see the current temperature, the city and whether he/she
+    needs to wear a shirt or jacket based on their preferences.
+*/
+
 package com.example.hnle_pset6;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +23,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.security.PrivateKey;
 
 public class FifthActivity extends AppCompatActivity {
 
@@ -30,7 +33,6 @@ public class FifthActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
-    String search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +105,7 @@ public class FifthActivity extends AppCompatActivity {
 
                 temperatureString = extras.getString("temperature");
                 settings = extras.getString("setting");
-                search = extras.getString("search");
+                city = extras.getString("city");
 
 
             }
@@ -113,7 +115,7 @@ public class FifthActivity extends AppCompatActivity {
 
                 Bundle extras = getIntent().getExtras();
                 temperatureString = extras.getString("temp");
-                search = extras.getString("search");
+                city = extras.getString("city");
 
             }
         }
@@ -194,7 +196,7 @@ public class FifthActivity extends AppCompatActivity {
         TextView userText = (TextView) findViewById(R.id.show_txt);
         TextView showCity = (TextView) findViewById(R.id.show_city);
 
-        showCity.setText(search);
+        showCity.setText(city);
 
         if (temperature <= test) {
             jacket.setVisibility(View.VISIBLE);

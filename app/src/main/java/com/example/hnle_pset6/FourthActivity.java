@@ -1,10 +1,14 @@
+/*
+    The fourth screen a new user sees or an existing user who wants to change its preference.
+    In this screen the user can change the city and temperature.
+*/
+
 package com.example.hnle_pset6;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,8 +26,8 @@ public class FourthActivity extends AppCompatActivity {
     private String settingTemp;
     private String settingCity;
     private String userId;
-    String search;
-    String check;
+    private String city;
+    public String check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +76,13 @@ public class FourthActivity extends AppCompatActivity {
         }
     }
 
+    // When pressed on the done button, save the preferences in the database
     public void done(View view) {
         // Save/update preferences in database
         saveInDatabase();
     }
 
+    // Function to save user preferences in the database
     public void saveInDatabase(){
 
         // If user is logged in
@@ -92,19 +98,19 @@ public class FourthActivity extends AppCompatActivity {
             settingTemp = settingsTshirt.getText().toString();
             settingCity = settingsCity.getText().toString();
 
-            // If the temperature field is left blank
+            // Show warning if the temperature field is left blank
             if (settingTemp.equals("")){
             Toast.makeText(FourthActivity.this, "Please fill in a temperature!",
                     Toast.LENGTH_SHORT).show();
             }
 
-            // If the city field is left blank
+            // Show warning if the city field is left blank
             if (settingsCity.equals("")){
                 Toast.makeText(FourthActivity.this, "Please fill in a city!",
                         Toast.LENGTH_SHORT).show();
             }
 
-            // If everything is filled in
+            // If everything is filled in, save it in database and get current temperature
             else {
 
             // Make a new User object and save the email and preferred temperature
@@ -116,10 +122,12 @@ public class FourthActivity extends AppCompatActivity {
             // Put into database
             mDatabase.child("users").child(encodeEmail).setValue(userSettings);
 
+            // Use asynctask to get current temperature of the city the user
             WeatherAsyncTaskRegister Asynctask = new WeatherAsyncTaskRegister(this);
             Asynctask.execute(settingCity);
 
-                if(check(check) == null){
+                // Give a warning if the city is an nonsense input
+                if(retrieveTemp(check) == null){
                     Toast.makeText(FourthActivity.this, "Please fill in an existing city!",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -140,7 +148,7 @@ public class FourthActivity extends AppCompatActivity {
         extra.putString("ID", "FourthActivity");
         extra.putString("setting", settingTemp);
         extra.putString("temperature", temp);
-        extra.putString("search", search);
+        extra.putString("city", city);
         intent.putExtras(extra);
 
         // Go to next screen
@@ -164,15 +172,18 @@ public class FourthActivity extends AppCompatActivity {
         return string.replace(".", ",");
     }
 
-    public String check(String temp){
-
+    // A function to retrieve the current temperature from the async task
+    public String retrieveTemp(String temp){
         check = temp;
         return check;
     }
 
-    public String retrieveSearch(String cityName){
-        search = cityName;
-        return search;
+    // A function to retrieve the city from the async task. In case a user misspells a city and
+    // the API returns the closest looking city the textview in fifth activity will still
+    // display the city of the API and not the misspelled city of user.
+    public String retrieveCity(String cityName){
+        city = cityName;
+        return city;
     }
 
 }

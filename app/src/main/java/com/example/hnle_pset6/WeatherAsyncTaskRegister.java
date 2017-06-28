@@ -1,25 +1,20 @@
-
-
-//  SETTINGS PAGE
+/*
+    Asynctask to retrieve the city and temperature in the API for new users
+*/
 
 package com.example.hnle_pset6;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.util.Log;
 
 public class WeatherAsyncTaskRegister extends AsyncTask<String, Integer, String> {
     Context context;
 
     String temperature;
     FourthActivity fourthAct;
-    String search;
+    String city;
 
     public WeatherAsyncTaskRegister(FourthActivity fourth){
         this.fourthAct = fourth;
@@ -43,10 +38,10 @@ public class WeatherAsyncTaskRegister extends AsyncTask<String, Integer, String>
         super.onPostExecute(result);
 
         try {
-
+            // Save city and temperature data in a string
             JSONObject temperatureStreamObject = new JSONObject(result);
             JSONObject searchObj = new JSONObject(result);
-            search = searchObj.getString("name");
+            city = searchObj.getString("name");
 
             JSONObject temperatureObj = temperatureStreamObject.getJSONObject("main");
             temperature = temperatureObj.getString("temp");
@@ -55,11 +50,13 @@ public class WeatherAsyncTaskRegister extends AsyncTask<String, Integer, String>
 
             catch (JSONException e) { e.printStackTrace(); }
 
-        this.fourthAct.check(temperature);
+        // Sent temperature back to fourth activity
+        this.fourthAct.retrieveTemp(temperature);
 
+        // Only sent the city and temperature back if it exists
         if (this.fourthAct.check != null){
 
-            this.fourthAct.retrieveSearch(search);
+            this.fourthAct.retrieveCity(city);
             this.fourthAct.goToFifthScreen(temperature);
         }
 
