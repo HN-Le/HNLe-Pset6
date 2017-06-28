@@ -16,11 +16,12 @@ public class User {
         this.city = cities;
     }
 
+    // Get temperature from object
     public String getTemp() {
         return temp;
     }
 
-
+    // Get city from object
     public String getCity() {
         return city;
     }
