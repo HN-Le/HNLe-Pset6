@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -102,13 +103,13 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             // Show warning if the city field is left blank
-            if (settingsCity.equals("")){
+            if (settingCity.equals("")){
                 Toast.makeText(SettingsActivity.this, "Please fill in a city!",
                         Toast.LENGTH_SHORT).show();
             }
 
             // If everything is filled in, save it in database and get current temperature
-            else { saveData(); }
+            else { lookUpData(); }
         }
 
         // If not logged in go to register screen
@@ -163,15 +164,7 @@ public class SettingsActivity extends AppCompatActivity {
         return city;
     }
 
-    public void saveData(){
-        // Make a new User object and save the email and preferred temperature
-        User userSettings = new User (userId, settingTemp, settingCity);
-
-        // Replace "." with "," to put into database
-        String encodeEmail = EncodeString(userId);
-
-        // Put into database
-        mDatabase.child("users").child(encodeEmail).setValue(userSettings);
+    public void lookUpData(){
 
         // Use asynctask to get current temperature of the city the user
         WeatherAsyncTaskRegister Asynctask = new WeatherAsyncTaskRegister(this);
@@ -181,7 +174,20 @@ public class SettingsActivity extends AppCompatActivity {
         if(retrieveTemp(check) == null){
             Toast.makeText(SettingsActivity.this, "Please fill in an existing city!",
                     Toast.LENGTH_SHORT).show();
+
         }
+    }
+
+    public void saveData(){
+
+        // Make a new User object and save the email and preferred temperature
+        User userSettings = new User (userId, settingTemp, settingCity);
+
+        // Replace "." with "," to put into database
+        String encodeEmail = EncodeString(userId);
+
+        // Put into database
+        mDatabase.child("users").child(encodeEmail).setValue(userSettings);
     }
 }
 

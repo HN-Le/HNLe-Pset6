@@ -9,6 +9,8 @@ package com.example.hnle_pset6;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,8 +57,9 @@ public class WeatherAsyncTaskRegister extends AsyncTask<String, Integer, String>
         this.settingsAct.retrieveTemp(temperature);
 
         // Only sent the city and temperature back if it exists
-        if (this.settingsAct.check != null){
+        if (!TextUtils.isEmpty(city)){
             this.settingsAct.retrieveCity(city);
+            this.settingsAct.saveData();
             this.settingsAct.goToFifthScreen(temperature);
         }
     }

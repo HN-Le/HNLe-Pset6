@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -133,6 +134,11 @@ public class WeatherActivity extends AppCompatActivity {
 
     public void show(){
 
+        // If one of the is empty, stop
+        if (TextUtils.isEmpty(temperatureString) || TextUtils.isEmpty(userTemperature)){
+            return;
+        }
+
         // Show temperature
         TextView show_temperature = (TextView) findViewById(R.id.show_temp);
         show_temperature.setText(temperatureString + " ℃");
@@ -189,12 +195,12 @@ public class WeatherActivity extends AppCompatActivity {
                 Bundle extras = getIntent().getExtras();
                 temperatureString = extras.getString("temp");
                 city = extras.getString("city");
-
             }
 
             else if (activity.equals("StartActivity")) {
                 Bundle extras = getIntent().getExtras();
-                city = extras.getString("city");
+                city = extras.getString("userCity");
+                Log.d("CITY", city);
 
                 WeatherAsyncTaskExistingUser Asynctask = new WeatherAsyncTaskExistingUser(WeatherActivity.this);
                 Asynctask.execute(city);
@@ -233,7 +239,6 @@ public class WeatherActivity extends AppCompatActivity {
 
     public String retrieveTemp(String temp){
         temperatureString = temp;
-        Log.d("IETS", temperatureString);
         return temperatureString;
 
     }

@@ -65,16 +65,11 @@ public class WeatherAsyncTaskExistingUser extends AsyncTask<String, Integer, Str
 
         // Sent back the city data
         this.weather.retrieveCity(city);
-        Log.d("TEMPERATUUR", city);
-
 
         this.weather.retrieveTemp(temperatureString);
 
-        Log.d("TEMPERATUUR", temperatureString);
+        this.weather.show();
 
-
-        // Go to the fifth screen and sent the temperature data to the login activity
-//        this.start.goToFifth(temperatureString);
     }
 
 

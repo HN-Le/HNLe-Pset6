@@ -52,11 +52,6 @@ public class StartActivity extends AppCompatActivity {
 
                     retrieveExistingUser();
 
-                    goToFifth();
-
-//                    WeatherAsyncTaskExistingUser Asynctask = new WeatherAsyncTaskExistingUser(StartActivity.this);
-//                    Asynctask.execute(userCity);
-
                 }
                 else {
                     Log.d("USERS", "NO USER");
@@ -130,10 +125,9 @@ public class StartActivity extends AppCompatActivity {
                 // Get user temperature
                 userTemperature = user.getTemp();
                 userCity = user.getCity();
-                city = userCity;
 
-                Log.d("TEMPERATUUR 1", userCity);
-                Log.d("TEMPERATUUR 2", city);
+                goToFifth();
+
             }
 
             @Override
