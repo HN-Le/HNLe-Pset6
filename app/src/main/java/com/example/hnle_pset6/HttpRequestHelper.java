@@ -1,3 +1,7 @@
+/*
+    Helper class to download data from API
+*/
+
 package com.example.hnle_pset6;
 
 import android.util.Log;
@@ -15,7 +19,7 @@ public class HttpRequestHelper {
 
     protected static synchronized String downloadFromServer(String... params) {
         String result = "";
-        // the movie name from user input
+        // the city name from user input
         String chosenTag = params[0];
 
         URL site = null;
@@ -56,7 +60,6 @@ public class HttpRequestHelper {
             e.printStackTrace();
         }
 
-        Log.d("RESULT", result);
         return result;
     }
 }
