@@ -152,12 +152,14 @@ public class WeatherActivity extends AppCompatActivity {
 
         showCity.setText(city);
 
+        // If lower than user preference
         if (temperature <= test) {
             jacket.setVisibility(View.VISIBLE);
             shirt.setVisibility(View.INVISIBLE);
             userText.setText("Jacket");
         }
 
+        // If higher than user preference
         else {
             shirt.setVisibility(View.VISIBLE);
             jacket.setVisibility(View.INVISIBLE);
@@ -165,6 +167,7 @@ public class WeatherActivity extends AppCompatActivity {
         }
     }
 
+    // Function to get data from previous activities
     public void retrieveData(){
         Intent intent = this.getIntent();
 
@@ -192,6 +195,7 @@ public class WeatherActivity extends AppCompatActivity {
                 city = extras.getString("city");
             }
 
+            // If previous activity startActivity
             else if (activity.equals("StartActivity")) {
                 Bundle extras = getIntent().getExtras();
                 city = extras.getString("userCity");
@@ -202,6 +206,7 @@ public class WeatherActivity extends AppCompatActivity {
         }
     }
 
+    // Function to get user data in database
     public void retrieveUserData(){
 
         final String uid = EncodeString(mAuth.getCurrentUser().getEmail());
