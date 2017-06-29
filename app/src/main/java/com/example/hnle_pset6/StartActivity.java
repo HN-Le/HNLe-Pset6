@@ -104,7 +104,6 @@ public class StartActivity extends AppCompatActivity {
                 userCity = user.getCity();
 
                 goToWeather();
-
             }
 
             @Override
