@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 
 public class WeatherActivity extends AppCompatActivity {
 
@@ -64,12 +62,14 @@ public class WeatherActivity extends AppCompatActivity {
             }
         };
 
+        // Get userdata from database
         retrieveUserData();
 
         // Get data from previous activities
         retrieveData();
     }
 
+    // Do nothing when back button is pressed
     @Override
     public void onBackPressed() {
     }
@@ -163,7 +163,6 @@ public class WeatherActivity extends AppCompatActivity {
             jacket.setVisibility(View.INVISIBLE);
             userText.setText("Shirt");
         }
-
     }
 
     public void retrieveData(){
@@ -174,7 +173,6 @@ public class WeatherActivity extends AppCompatActivity {
 
             // See what previous activity was
             String activity = intent.getExtras().getString("ID");
-            Log.d("INTENT", activity);
 
             // If previous activity was the setting screen, get the new/adjusted temperature
             if (activity.equals("SettingsActivity")) {
@@ -197,7 +195,6 @@ public class WeatherActivity extends AppCompatActivity {
             else if (activity.equals("StartActivity")) {
                 Bundle extras = getIntent().getExtras();
                 city = extras.getString("userCity");
-                Log.d("CITY", city);
 
                 WeatherAsyncTaskExistingUser Asynctask = new WeatherAsyncTaskExistingUser(WeatherActivity.this);
                 Asynctask.execute(city);
@@ -237,7 +234,6 @@ public class WeatherActivity extends AppCompatActivity {
     public String retrieveTemp(String temp){
         temperatureString = temp;
         return temperatureString;
-
     }
 
     public String retrieveCity(String temp){

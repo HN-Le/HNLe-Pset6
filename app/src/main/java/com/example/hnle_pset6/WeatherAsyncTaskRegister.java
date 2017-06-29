@@ -15,11 +15,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class WeatherAsyncTaskRegister extends AsyncTask<String, Integer, String> {
-    Context context;
+    private Context context;
 
-    String temperature;
-    SettingsActivity settingsAct;
-    String city;
+    private String temperature;
+    private SettingsActivity settingsAct;
+    public String city;
 
     public WeatherAsyncTaskRegister(SettingsActivity fourth){
         this.settingsAct = fourth;

@@ -156,9 +156,7 @@ public class SettingsActivity extends AppCompatActivity {
         return check;
     }
 
-    // A function to retrieve the city from the async task. In case a user misspells a city and
-    // the API returns the closest looking city the textview in fifth activity will still
-    // display the city of the API and not the misspelled city of user.
+    // A function to retrieve the city from the async task
     public String retrieveCity(String cityName){
         city = cityName;
         return city;
@@ -174,7 +172,6 @@ public class SettingsActivity extends AppCompatActivity {
         if(retrieveTemp(check) == null){
             Toast.makeText(SettingsActivity.this, "Please fill in an existing city!",
                     Toast.LENGTH_SHORT).show();
-
         }
     }
 

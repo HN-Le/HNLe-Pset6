@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -32,7 +31,6 @@ public class StartActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private String userTemperature;
     private String userCity;
-    private String city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +50,6 @@ public class StartActivity extends AppCompatActivity {
                 }
             }
         };
-
     }
 
     @Override
@@ -69,7 +66,7 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
-    public static String EncodeString(String string) {
+    public static String encodeString(String string) {
         return string.replace(".", ",");
     }
 
@@ -92,7 +89,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     public void retrieveExistingUser(){
-        final String uid = EncodeString(mAuth.getCurrentUser().getEmail());
+        final String uid = encodeString(mAuth.getCurrentUser().getEmail());
 
         // Retrieve user preference
         mDatabase.child("users").child(uid).addValueEventListener(new ValueEventListener() {

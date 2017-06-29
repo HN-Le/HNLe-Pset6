@@ -54,11 +54,12 @@ public class WeatherAsyncTaskExistingUser extends AsyncTask<String, Integer, Str
             e.printStackTrace();
         }
 
-        // Sent back the city data
+        // Sent back the city and current temperature
         this.weather.retrieveCity(city);
 
         this.weather.retrieveTemp(temperatureString);
 
+        // Show data to user after async task is finished
         this.weather.show();
 
     }
